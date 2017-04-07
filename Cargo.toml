@@ -1,0 +1,9 @@
+[package]
+authors = ["kmtoki <higumaido@gmail.com>"]
+name = "tetris"
+version = "0.1.0"
+
+[dependencies]
+glium = "0.16.0"
+glutin = "0.7.4"
+rand = "0.3.15"
