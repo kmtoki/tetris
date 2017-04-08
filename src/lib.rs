@@ -3,23 +3,19 @@ use rand::distributions;
 use rand::distributions::IndependentSample;
 
 use std::f32;
-use std::convert::From;
 
-
-#[derive(Debug)]
 pub struct Tetris {
   pub block: Block,
   pub field: [[Color; 10]; 20],
   pub score: i32,
 }
 
-#[derive(Debug)]
 pub struct Block {
   pub color: Color,
   pub blocks: Vec<(i32,i32)>,
 }
 
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(PartialEq, Copy, Clone)]
 pub enum Color {
   Black, Red, Green, Blue, Yellow, Cyan, Magenta, White
 }
@@ -29,15 +25,13 @@ pub enum Control {
   Down, Left, Right, Rotate
 }
 
-const COLORS: [Color; 8] = [
-  Color::Black,
+const COLORS: &'static [Color] = &[
   Color::Red,
   Color::Green,
   Color::Blue, 
   Color::Yellow, 
   Color::Cyan, 
   Color::Magenta,
-  Color::White
 ];
 
 const BLOCKS: &'static [&'static [(i32,i32)]] = &[ 
@@ -48,7 +42,6 @@ const BLOCKS: &'static [&'static [(i32,i32)]] = &[
   &[(0,0),(0,1),(0,2),(0,3),(1,0)],
   &[(0,0),(0,1),(1,1),(1,2)],
   &[(1,0),(1,1),(0,1),(0,2)],
-  &[(0,1),(0,1),(0,2),(1,1)],
 ];
 
 impl Block {
@@ -62,7 +55,7 @@ impl Block {
   pub fn rand() -> Block {
     let mut rng = rand::thread_rng();
     let blocks_range = distributions::Range::new(0, BLOCKS.len());
-    let colors_range = distributions::Range::new(1, COLORS.len() - 1);
+    let colors_range = distributions::Range::new(0, COLORS.len());
     return Block {
       color: COLORS[colors_range.ind_sample(&mut rng)],
       blocks: BLOCKS[blocks_range.ind_sample(&mut rng)].to_vec()
